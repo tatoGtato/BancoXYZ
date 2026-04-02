@@ -12,6 +12,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import i18n from "../../i18n/index";
 import { COLORS } from "../constants/colors";
 import { useAuth } from "../context/AuthContext";
 
@@ -35,68 +36,72 @@ const Login = () => {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1 }}
+      style={{ flex: 1, backgroundColor: COLORS.background }}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 20}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-          keyboardShouldPersistTaps="handled"
-        >
-          <View style={styles.container}>
-            <View style={styles.content}>
+        <View style={{ flex: 1 }}>
+          {/* Scrollable content */}
+          <ScrollView
+            contentContainerStyle={styles.scrollContainer}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.form}>
               <Image source={logo} style={styles.logo} />
 
-              <View style={styles.form}>
-                <Text style={styles.title}>Log In</Text>
+              <Text style={styles.title}>{i18n.t("logIn")}</Text>
 
-                {!!errorMsg && (
-                  <Text style={styles.errorMsg}>{errorMsg}</Text>
-                )}
+              {!!errorMsg && (
+                <Text style={styles.errorMsg}>{errorMsg}</Text>
+              )}
 
-                {/* 📧 Email */}
-                <TextInput
-                  placeholder="Email"
-                  value={email}
-                  onChangeText={setEmail}
-                  style={styles.input}
-                  placeholderTextColor={COLORS.placeHolder}
-                  autoFocus
-                  returnKeyType="next"
-                  onSubmitEditing={() => passwordRef.current?.focus()}
-                  blurOnSubmit={false}
-                />
+              <TextInput
+                placeholder={i18n.t("email")}
+                value={email}
+                onChangeText={setEmail}
+                style={styles.input}
+                placeholderTextColor={COLORS.placeHolder}
+                autoFocus
+                returnKeyType="next"
+                onSubmitEditing={() => passwordRef.current?.focus()}
+                blurOnSubmit={false}
+                testID="emailInput"
+              />
 
-                {/* 🔒 Password */}
-                <TextInput
-                  ref={passwordRef}
-                  placeholder="Password"
-                  value={password}
-                  onChangeText={setPassword}
-                  secureTextEntry
-                  style={styles.input}
-                  placeholderTextColor={COLORS.placeHolder}
-                  returnKeyType="done"
-                  onSubmitEditing={handleLogin}
-                />
-              </View>
+              <TextInput
+                ref={passwordRef}
+                placeholder={i18n.t("password")}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                style={styles.input}
+                placeholderTextColor={COLORS.placeHolder}
+                returnKeyType="done"
+                onSubmitEditing={handleLogin}
+                testID="passwordInput"
+              />
             </View>
+          </ScrollView>
 
-            {/* 🔘 Button */}
-            <View style={styles.footer}>
-              <Pressable
-                style={[
-                  styles.button,
-                  (!email || !password) && styles.buttonDisabled,
-                ]}
-                onPress={handleLogin}
-                disabled={!email || !password}
-              >
-                <Text style={styles.buttonText}>Log In</Text>
-              </Pressable>
-            </View>
+          {/* Fixed bottom button */}
+          <View style={styles.footer}>
+            <Pressable
+              style={[
+                styles.button,
+                (!email || !password) && styles.buttonDisabled,
+              ]}
+              onPress={() => {
+                Keyboard.dismiss();
+                handleLogin();
+              }}
+              disabled={!email || !password}
+            >
+              <Text style={styles.buttonText}>{i18n.t("logIn")}</Text>
+            </Pressable>
           </View>
-        </ScrollView>
+        </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
@@ -119,11 +124,23 @@ const styles = StyleSheet.create({
     width: 300,
   },
 
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    paddingHorizontal: 24,
+    paddingBottom: 20,
+  },
+
   form: {
     width: "100%",
-    paddingHorizontal: 24,
-    marginTop: 20,
+    alignItems: "center",
   },
+
+  footer: {
+    padding: 20,
+    backgroundColor: COLORS.background,
+  },
+
 
   title: {
     fontSize: 32,
@@ -150,10 +167,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.surface,
     fontSize: 16,
     color: COLORS.textPrimary,
-  },
-
-  footer: {
-    padding: 24,
   },
 
   button: {

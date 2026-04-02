@@ -14,6 +14,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import i18n from "../../i18n/index";
 import { COLORS } from "../constants/colors";
 import { doTransactions } from "../hooks/doTransactions";
 
@@ -50,7 +51,8 @@ const Transfer = ({ navigation }) => {
     });
 
     if (!error) {
-      setTimeout(() => navigation.goBack(), 1000);
+      Keyboard.dismiss();
+      setTimeout(() => navigation.goBack(), 2000);
     }
   };
 
@@ -68,10 +70,10 @@ const Transfer = ({ navigation }) => {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.form}>
-            <Text style={styles.title}>Transferencia</Text>
+            <Text style={styles.title}>{i18n.t("transferTitle")}</Text>
 
             <TextInput
-              placeholder="Monto"
+              placeholder={i18n.t("amount")}
               value={amount}
               onChangeText={setAmount}
               keyboardType="numeric"
@@ -85,15 +87,15 @@ const Transfer = ({ navigation }) => {
                 selectedValue={currency}
                 onValueChange={(itemValue) => setCurrency(itemValue)}
               >
-                <Picker.Item label="Selecciona una moneda" value="" />
-                <Picker.Item label="USD - Dólar" value="USD" />
-                <Picker.Item label="COP - Peso Colombiano" value="COP" />
-                <Picker.Item label="BRL - Real Brasileño" value="BRL" />
+                <Picker.Item label={i18n.t("selectCurrency")} value="" />
+                <Picker.Item label={`USD - ${i18n.t("USD")}`} value="USD" />
+                <Picker.Item label={`COP - ${i18n.t("COP")}`} value="COP" />
+                <Picker.Item label={`BRL - ${i18n.t("BRL")}`} value="BRL" />
               </Picker>
             </View>
 
             <TextInput
-              placeholder="Documento del receptor"
+              placeholder={i18n.t("document")}
               value={document}
               onChangeText={setDocument}
               keyboardType="numeric"
@@ -129,15 +131,15 @@ const Transfer = ({ navigation }) => {
               {loading ? (
                 <ActivityIndicator color={COLORS.background} />
               ) : (
-                <Text style={styles.buttonText}>Enviar</Text>
+                <Text style={styles.buttonText}>{i18n.t("send")}</Text>
               )}
             </Pressable>
 
             {success && (
-              <Text style={styles.success}>Transferencia exitosa</Text>
+              <Text style={styles.success}>{i18n.t("success")}</Text>
             )}
             {error && (
-              <Text style={styles.error}>Error en la transferencia</Text>
+              <Text style={styles.error}>{i18n.t("error")}</Text>
             )}
           </View>
         </TouchableWithoutFeedback>
