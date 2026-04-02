@@ -4,6 +4,8 @@ import {
   StyleSheet,
   Text
 } from "react-native";
+import i18n from "../../i18n/index";
+import { COLORS } from "../constants/colors";
 import { useAuth } from "./../context/AuthContext";
 import Balance from "./Balance";
 import Transfer from "./Transfer";
@@ -20,7 +22,7 @@ const Home = () => {
         options={{
           headerRight: () => (
             <Pressable onPress={onLogout}>
-              <Text style={styles.logoutText}>Logout</Text>
+              <Text style={styles.logoutText}>{ i18n.t("logOut") }</Text>
             </Pressable>
           ),
         }}
@@ -44,7 +46,7 @@ const Home = () => {
 
 const styles = StyleSheet.create({
   logoutText: {
-    color: "#6367FF",
+    color: COLORS.primary,
     fontSize: 16,
     fontWeight: "600",
     paddingLeft: 12,

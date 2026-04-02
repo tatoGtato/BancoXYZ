@@ -8,6 +8,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import i18n from "../../i18n/index";
 import { COLORS } from "../constants/colors";
 
 const BalanceView = ({ balance, currency, transactions, onTransfer }) => {
@@ -37,7 +38,7 @@ const BalanceView = ({ balance, currency, transactions, onTransfer }) => {
     <View style={styles.transactionItem}>
       <View>
         <Text style={styles.transactionName}>
-          {item.payeer?.name || "Sin nombre"}
+          {item.payeer?.name || i18n.t("sinNombre")}
         </Text>
         <Text style={styles.transactionDate}>{item.date}</Text>
       </View>
@@ -52,7 +53,7 @@ const BalanceView = ({ balance, currency, transactions, onTransfer }) => {
     <View style={styles.container}>
       {/* Balance */}
       <View style={styles.balanceContainer}>
-        <Text style={styles.balanceLabel}>Balance</Text>
+        <Text style={styles.balanceLabel}>{i18n.t("balance")}</Text>
         <Text style={styles.balanceAmount}>
           {balance} {currency}
         </Text>
@@ -61,27 +62,37 @@ const BalanceView = ({ balance, currency, transactions, onTransfer }) => {
       {/* Filters */}
       <View style={styles.filtersContainer}>
         <TextInput
-          placeholder="Buscar por nombre o monto"
+          placeholder={i18n.t("search")}
           value={search}
           onChangeText={setSearch}
           style={styles.input}
-          placeholderTextColor="#aaa"
+          placeholderTextColor={COLORS.placeHolder}
         />
 
         {/* Date Picker Trigger */}
         <Pressable
-          style={styles.dateButton}
-          onPress={() => setShowPicker(true)}
+          style={[
+            styles.dateButton,
+            showPicker && styles.dateButtonDisabled,
+          ]}
+          onPress={() => {
+            if (!showPicker) setShowPicker(true);
+          }}
+          disabled={showPicker}
         >
           <Text style={styles.dateText}>
-            {dateFilter ? formatDate(dateFilter) : "Filtrar por fecha"}
+            {showPicker
+              ? i18n.t("filterDate") + "..."
+              : dateFilter
+              ? formatDate(dateFilter)
+              : i18n.t("filterDate")}
           </Text>
         </Pressable>
 
         {/* Clear date */}
-        {dateFilter && (
+        {dateFilter && !showPicker && (
           <Pressable onPress={() => setDateFilter(null)}>
-            <Text style={styles.clearText}>Limpiar fecha</Text>
+            <Text style={styles.clearText}>{i18n.t("clearDate")}</Text>
           </Pressable>
         )}
 
@@ -100,7 +111,7 @@ const BalanceView = ({ balance, currency, transactions, onTransfer }) => {
 
       {/* Transactions */}
       <View style={styles.transactionsContainer}>
-        <Text style={styles.sectionTitle}>Historial</Text>
+        <Text style={styles.sectionTitle}>{i18n.t("history")}</Text>
 
         <FlatList
           data={filteredTransactions}
@@ -111,7 +122,7 @@ const BalanceView = ({ balance, currency, transactions, onTransfer }) => {
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={
             <Text style={styles.emptyText}>
-              No hay transacciones que coincidan
+              {i18n.t("noResults")}
             </Text>
           }
         />
@@ -119,7 +130,7 @@ const BalanceView = ({ balance, currency, transactions, onTransfer }) => {
 
       {/* Button */}
       <Pressable style={styles.button} onPress={onTransfer}>
-        <Text style={styles.buttonText}>Realizar Transferencia</Text>
+        <Text style={styles.buttonText}>{i18n.t("transfer")}</Text>
       </Pressable>
     </View>
   );
@@ -152,20 +163,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  dateButtonDisabled: {
+    backgroundColor: COLORS.primaryLight,
+    opacity: 0.7,
+  },
+
   dateText: {
     color: COLORS.background,
     fontWeight: "600",
   },
 
   clearText: {
-    color: COLORS.primary,
+    color: COLORS.textPrimary,
     textAlign: "center",
     fontSize: 12,
   },
 
   emptyText: {
     textAlign: "center",
-    color: "#999",
+    color: COLORS.placeHolder,
     marginTop: 20,
   },
 
@@ -177,14 +193,14 @@ const styles = StyleSheet.create({
 
   balanceLabel: {
     fontSize: 16,
-    color: "#888",
+    color: COLORS.textSecondary,
     marginBottom: 8,
   },
 
   balanceAmount: {
     fontSize: 40,
     fontWeight: "bold",
-    color: "#222",
+    color: COLORS.textPrimary,
   },
 
   transactionsContainer: {
@@ -204,28 +220,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 14,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    borderBottomColor: COLORS.border,
   },
 
   transactionName: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#222",
+    color: COLORS.textPrimary,
   },
 
   transactionDate: {
     fontSize: 14,
-    color: "#333",
+    color: COLORS.textPrimary,
   },
 
   transactionAmount: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#222",
+    color: COLORS.textPrimary,
   },
 
   button: {
-    backgroundColor: "#6367FF",
+    backgroundColor: COLORS.primary,
     margin: 20,
     padding: 16,
     borderRadius: 30,
@@ -233,7 +249,7 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    color: "#fff",
+    color: COLORS.background,
     fontSize: 16,
     fontWeight: "600",
   },

@@ -1,6 +1,7 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import { createContext, useContext, useEffect, useState } from "react";
+import i18n from "../../i18n/index";
 
 //Interfaz para definir el tipo de datos del contexto de autenticación
 interface AuthProps {
@@ -68,9 +69,9 @@ export const AuthProvider = ({ children }: any) => {
     } catch (error) {
       switch (error.response?.status) {
         case 401:
-          return { error: true, msg: "Email o contraseña incorrectos" };
+          return { error: true, msg: i18n.t("wrongLogIn") };
         default:
-          return { error: true, msg: "Error de login, intenta nuevamente" };
+          return { error: true, msg: i18n.t("errorLogIn") };
       }
     }
   };

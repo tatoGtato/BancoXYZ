@@ -1,52 +1,313 @@
-# Welcome to your Expo app 👋
+# BancoXYZ - Mobile Banking Application 🏦
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern React Native banking application built with Expo, featuring secure authentication, balance tracking, and international money transfers.
 
-## Get started
+## 📋 Table of Contents
 
-1. Install dependencies
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Available Scripts](#available-scripts)
+- [Testing](#testing)
+- [Configuration](#configuration)
+- [API Integration](#api-integration)
+- [Security](#security)
+- [Internationalization](#internationalization)
+- [Contributing](#contributing)
+- [License](#license)
 
+## ✨ Features
+
+- **User Authentication** - Secure login with email and password
+- **Balance Management** - Real-time account balance display with multi-currency support
+- **Transaction History** - Searchable and filterable transaction list
+- **Money Transfers** - Send money internationally with date scheduling
+- **Secure Storage** - Encrypted token storage using Expo Secure Store
+- **Multi-language Support** - English, Spanish, and Portuguese localization
+- **Date Filtering** - Filter transactions by date range
+- **Loading States** - User-friendly loading indicators for async operations
+- **Error Handling** - Comprehensive error messages and validation
+
+## 🛠 Tech Stack
+
+### Frontend
+- **React Native** (0.81.5) - Cross-platform mobile development
+- **Expo** (54.0.20) - React Native development platform
+- **TypeScript** - Type-safe development
+- **React Navigation** (7.2.2) - Navigation stack management
+
+### State Management & API
+- **React Hooks** - Custom hooks for data fetching and transactions
+- **Axios** (1.14.0) - HTTP client for API calls
+- **i18n-js** (4.5.3) - Internationalization library
+
+### Security
+- **Expo Secure Store** (15.0.8) - Encrypted credential storage
+
+### Testing
+- **Jest** (30.3.0) - Testing framework
+- **@testing-library/react-native** (13.3.3) - React component testing utilities
+- **Babel** (7.29.0) - JavaScript transpiler with Flow support
+
+### Development Tools
+- **ESLint** - Code linting
+- **Prettier** - Code formatting
+- **Metro** - React Native bundler
+
+## 📦 Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+- Expo CLI: `npm install -g expo-cli`
+- Android Studio (for Android development)
+- Xcode (for iOS development)
+
+## 🚀 Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/BancoXYZ.git
+   cd BancoXYZ
+   ```
+
+2. **Install dependencies**
    ```bash
    npm install
    ```
 
-2. Start the app
-
+3. **Install Expo CLI** (if not already installed)
    ```bash
-   npx expo start
+   npm install -g expo-cli
    ```
 
-In the output, you'll find options to open the app in a
+## 🎯 Getting Started
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Development Mode
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+Start the development server:
 ```bash
-npm run reset-project
+npm start
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Or use specific platform commands:
+```bash
+npm run android    # Start on Android emulator
+npm run ios        # Start on iOS simulator
+npm run web        # Start on web browser
+```
 
-### Other setup steps
+### Running the App
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+From the Expo output, you can:
+- Press `a` to open Android emulator
+- Press `i` to open iOS simulator
+- Press `w` to open web browser
+- Scan QR code with Expo Go app
 
-## Learn more
+### Development Build
 
-To learn more about developing your project with Expo, look at the following resources:
+Create a development build for testing:
+```bash
+eas build --platform android --profile preview
+eas build --platform ios --profile preview
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 📁 Project Structure
+
+```
+BancoXYZ/
+├── app/
+│   ├── components/           # Reusable UI components
+│   │   └── BalanceView.tsx   # Balance display component
+│   ├── context/              # React Context providers
+│   │   └── AuthContext.tsx   # Authentication context
+│   ├── hooks/                # Custom React hooks
+│   │   ├── useBalanceData.js # Balance data fetching
+│   │   └── doTransactions.js # Transaction execution
+│   ├── pages/                # Screen components
+│   │   ├── Login.tsx         # Login screen
+│   │   ├── Home.tsx          # Home/navigator
+│   │   ├── Balance.tsx       # Balance screen
+│   │   └── Transfer.tsx      # Transfer screen
+│   ├── services/             # API services
+│   │   └── apis.js           # API endpoints
+│   ├── constants/            # Application constants
+│   │   └── colors.js         # Color palette
+│   └── pages/*.test.js       # Test files
+├── i18n/                     # Internationalization
+│   ├── index.js              # i18n configuration
+│   └── locales/              # Language files
+│       ├── en.json           # English
+│       ├── es.json           # Spanish
+│       └── pt-BR.json        # Portuguese (Brazil)
+├── __mocks__/                # Jest mocks
+│   ├── react-native.js       # React Native mock
+│   └── fileMock.js           # File/image mock
+├── jest.config.js            # Jest configuration
+├── jest.setup.js             # Jest setup
+├── babel.config.js           # Babel configuration
+├── App.js                    # Main app component
+├── index.js                  # Entry point
+└── package.json              # Dependencies
+```
+
+## 📝 Available Scripts
+
+```bash
+npm start          # Start development server
+npm run android    # Run on Android emulator
+npm run ios        # Run on iOS simulator
+npm run web        # Run on web browser
+npm test           # Run all tests
+npm run lint       # Run ESLint
+npm run reset-project  # Reset to blank state
+```
+
+## 🧪 Testing
+
+### Run All Tests
+```bash
+npm test
+```
+
+### Run Tests in Watch Mode
+```bash
+npm test -- --watch
+```
+
+### Run Specific Test File
+```bash
+npm test app/pages/Login.test.js
+```
+
+### Test Coverage
+```bash
+npm test -- --coverage
+```
+
+### Test Files
+
+The project includes comprehensive tests for:
+- ✅ Pages (Login, Home, Balance, Transfer) - 20 tests
+- ✅ Components (BalanceView) - 9 tests
+- ✅ Context (AuthContext) - 5 tests
+- ✅ Services (APIs) - 14 tests
+- ✅ Hooks (useBalanceData, doTransactions) - 23 tests
+
+**Total: 68 tests passing**
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+Create a `.env` file in the root directory:
+```env
+EXPO_PUBLIC_API_URL=https://your-api-url.com
+```
+
+### API Configuration
+
+Update API endpoints in `app/services/apis.js`:
+```javascript
+export const API_URL = "https://your-api-url.com";
+```
+
+### Theme Configuration
+
+Customize colors in `app/constants/colors.js`:
+```javascript
+export const COLORS = {
+  primary: "#007AFF",
+  background: "#FFFFFF",
+  // ... more colors
+};
+```
+
+## 🔌 API Integration
+
+### Authentication Endpoints
+
+- **Login**: `POST /default/login`
+  - Body: `{ email: string, password: string }`
+  - Response: `{ token: string }`
+
+### Account Endpoints
+
+- **Get Balance**: `GET /default/balance`
+  - Response: `{ accountBalance: string, currency: string }`
+
+- **Get Transactions**: `GET /default/transferList`
+  - Response: `{ transfers: Transaction[] }`
+
+### Transfer Endpoints
+
+- **Execute Transfer**: `POST /default/transfer`
+  - Body: `{ value: number, currency: string, payeerDocument: string, transferDate: string }`
+  - Response: `{ success: boolean, transactionId: string }`
+
+## 🔐 Security
+
+### Best Practices Implemented
+
+1. **Token Storage** - JWT tokens stored in Expo Secure Store (encrypted)
+2. **Authorization Headers** - Tokens sent in `Authorization: Bearer <token>` header
+3. **HTTPS** - All API calls use HTTPS
+4. **Error Handling** - Sensitive errors not exposed to users
+5. **Input Validation** - Form validation before API calls
+6. **Logout** - Secure token deletion on logout
+
+### Secure Authentication Flow
+
+```
+Login → Validate credentials → Receive token → Store encrypted token
+↓
+App Init → Check stored token → Restore session → Maintain auth state
+↓
+Logout → Delete token → Clear headers → Return to login
+```
+
+## 🌍 Internationalization
+
+Supported languages:
+- 🇺🇸 English (en)
+- 🇪🇸 Spanish (es)
+- 🇧🇷 Portuguese (pt-BR)
+
+Add new translations in `app/locales/<language>.json`
+
+Example:
+```json
+{
+  "welcome": "Welcome",
+  "login": "Login",
+  "balance": "Balance"
+}
+```
+
+
+## 📚 Resources
+
+- [Expo Documentation](https://docs.expo.dev/)
+- [React Native Documentation](https://reactnative.dev/)
+- [React Navigation Docs](https://reactnavigation.org/)
+- [Jest Testing Guide](https://jestjs.io/)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 📧 Contact
+
+For questions or support, please contact: support@bancoxyz.com
+
+---
+
+**Last Updated**: April 2, 2026  
+**Version**: 1.0.0
 
 ## Join the community
 

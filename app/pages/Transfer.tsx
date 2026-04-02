@@ -14,6 +14,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import i18n from "../../i18n/index";
+import { COLORS } from "../constants/colors";
 import { doTransactions } from "../hooks/doTransactions";
 
 const Transfer = ({ navigation }) => {
@@ -49,7 +51,8 @@ const Transfer = ({ navigation }) => {
     });
 
     if (!error) {
-      setTimeout(() => navigation.goBack(), 1000);
+      Keyboard.dismiss();
+      setTimeout(() => navigation.goBack(), 2000);
     }
   };
 
@@ -67,15 +70,15 @@ const Transfer = ({ navigation }) => {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.form}>
-            <Text style={styles.title}>Transferencia</Text>
+            <Text style={styles.title}>{i18n.t("transferTitle")}</Text>
 
             <TextInput
-              placeholder="Monto"
+              placeholder={i18n.t("amount")}
               value={amount}
               onChangeText={setAmount}
               keyboardType="numeric"
               style={styles.input}
-              placeholderTextColor="#aaa"
+              placeholderTextColor={COLORS.placeHolder}
               returnKeyType="done"
             />
 
@@ -84,27 +87,27 @@ const Transfer = ({ navigation }) => {
                 selectedValue={currency}
                 onValueChange={(itemValue) => setCurrency(itemValue)}
               >
-                <Picker.Item label="Selecciona una moneda" value="" />
-                <Picker.Item label="USD - Dólar" value="USD" />
-                <Picker.Item label="COP - Peso Colombiano" value="COP" />
-                <Picker.Item label="BRL - Real Brasileño" value="BRL" />
+                <Picker.Item label={i18n.t("selectCurrency")} value="" />
+                <Picker.Item label={`USD - ${i18n.t("USD")}`} value="USD" />
+                <Picker.Item label={`COP - ${i18n.t("COP")}`} value="COP" />
+                <Picker.Item label={`BRL - ${i18n.t("BRL")}`} value="BRL" />
               </Picker>
             </View>
 
             <TextInput
-              placeholder="Documento del receptor"
+              placeholder={i18n.t("document")}
               value={document}
               onChangeText={setDocument}
               keyboardType="numeric"
               style={styles.input}
-              placeholderTextColor="#aaa"
+              placeholderTextColor={COLORS.placeHolder}
             />
 
             <Pressable
               style={styles.input}
               onPress={() => setShowPicker(true)}
             >
-              <Text style={{ color: "#333" }}>{formatDate(date)}</Text>
+              <Text style={{ color: COLORS.textPrimary }}>{formatDate(date)}</Text>
             </Pressable>
 
             {showPicker && (
@@ -126,17 +129,17 @@ const Transfer = ({ navigation }) => {
               disabled={!isFormValid || loading}
             >
               {loading ? (
-                <ActivityIndicator color="#fff" />
+                <ActivityIndicator color={COLORS.background} />
               ) : (
-                <Text style={styles.buttonText}>Enviar</Text>
+                <Text style={styles.buttonText}>{i18n.t("send")}</Text>
               )}
             </Pressable>
 
             {success && (
-              <Text style={styles.success}>Transferencia exitosa</Text>
+              <Text style={styles.success}>{i18n.t("success")}</Text>
             )}
             {error && (
-              <Text style={styles.error}>Error en la transferencia</Text>
+              <Text style={styles.error}>{i18n.t("error")}</Text>
             )}
           </View>
         </TouchableWithoutFeedback>
@@ -148,7 +151,7 @@ const Transfer = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.background,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -167,36 +170,36 @@ const styles = StyleSheet.create({
   },
   pickerContainer: {
     borderWidth: 1,
-    borderColor: "#eee",
+    borderColor: COLORS.border,
     borderRadius: 12,
     marginBottom: 16,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: COLORS.surface,
     overflow: "hidden",
   },
   input: {
     width: "100%",
     padding: 14,
     borderWidth: 1,
-    borderColor: "#eee",
+    borderColor: COLORS.border,
     borderRadius: 12,
     marginBottom: 16,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: COLORS.surface,
     fontSize: 16,
-    color: "#333",
+    color: COLORS.textPrimary,
   },
   button: {
-    backgroundColor: "#6367FF",
+    backgroundColor: COLORS.primary,
     padding: 16,
     borderRadius: 30,
     alignItems: "center",
     marginTop: 10,
   },
   buttonDisabled: {
-    backgroundColor: "#B0B3FF",
+    backgroundColor: COLORS.primaryLight,
     opacity: 0.7,
   },
   buttonText: {
-    color: "#fff",
+    color: COLORS.background,
     fontSize: 16,
     fontWeight: "600",
   },

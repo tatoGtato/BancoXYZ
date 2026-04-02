@@ -6,6 +6,7 @@ export const COLORS = {
   border: "#EEEEEE",
   textPrimary: "#222222",
   textSecondary: "#888888",
+  placeHolder: "#bbbbbb",
   success: "green",
   error: "red",
 };
