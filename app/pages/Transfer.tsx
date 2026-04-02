@@ -1,12 +1,17 @@
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { Picker } from "@react-native-picker/picker";
 import { useState } from "react";
 import {
   ActivityIndicator,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import { doTransactions } from "../hooks/doTransactions";
@@ -15,26 +20,34 @@ const Transfer = ({ navigation }) => {
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState("");
   const [document, setDocument] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [showPicker, setShowPicker] = useState(false);
 
   const { executeTransaction, loading, error, success } = doTransactions();
 
+  const formatDate = (date) => date.toISOString().split("T")[0];
+
+  const onChangeDate = (event, selectedDate) => {
+    setShowPicker(false);
+    if (selectedDate) setDate(selectedDate);
+  };
+
+  const isFormValid =
+    amount.trim() !== "" &&
+    currency.trim() !== "" &&
+    document.trim() !== "" &&
+    date;
+
   const handleTransfer = async () => {
-    if (!amount || !currency || !document || !date) {
-      return;
-    }
+    if (!isFormValid) return;
 
     await executeTransaction({
       value: Number(amount),
       currency,
-      date,
-      payee: {
-        document,
-        name: "Recebedor", // you could also add input for this later
-      },
+      payeerDocument: document,
+      transferDate: formatDate(date),
     });
 
-    // optional: go back after success
     if (!error) {
       setTimeout(() => navigation.goBack(), 1000);
     }
@@ -43,55 +56,91 @@ const Transfer = ({ navigation }) => {
   return (
     <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 20}
     >
-      <View style={styles.form}>
-        <Text style={styles.title}>Transferencia</Text>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        contentInsetAdjustmentBehavior="always"
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.form}>
+            <Text style={styles.title}>Transferencia</Text>
 
-        <TextInput
-          placeholder="Monto"
-          value={amount}
-          onChangeText={setAmount}
-          keyboardType="numeric"
-          style={styles.input}
-          placeholderTextColor="#aaa"
-        />
+            <TextInput
+              placeholder="Monto"
+              value={amount}
+              onChangeText={setAmount}
+              keyboardType="numeric"
+              style={styles.input}
+              placeholderTextColor="#aaa"
+              returnKeyType="done"
+            />
 
-        <TextInput
-          placeholder="Moneda (USD, BRL...)"
-          value={currency}
-          onChangeText={setCurrency}
-          style={styles.input}
-          placeholderTextColor="#aaa"
-        />
+            <View style={styles.pickerContainer}>
+              <Picker
+                selectedValue={currency}
+                onValueChange={(itemValue) => setCurrency(itemValue)}
+              >
+                <Picker.Item label="Selecciona una moneda" value="" />
+                <Picker.Item label="USD - Dólar" value="USD" />
+                <Picker.Item label="COP - Peso Colombiano" value="COP" />
+                <Picker.Item label="BRL - Real Brasileño" value="BRL" />
+              </Picker>
+            </View>
 
-        <TextInput
-          placeholder="Documento del receptor"
-          value={document}
-          onChangeText={setDocument}
-          style={styles.input}
-          placeholderTextColor="#aaa"
-        />
+            <TextInput
+              placeholder="Documento del receptor"
+              value={document}
+              onChangeText={setDocument}
+              keyboardType="numeric"
+              style={styles.input}
+              placeholderTextColor="#aaa"
+            />
 
-        <TextInput
-          placeholder="Fecha (YYYY-MM-DD)"
-          value={date}
-          onChangeText={setDate}
-          style={styles.input}
-          placeholderTextColor="#aaa"
-        />
+            <Pressable
+              style={styles.input}
+              onPress={() => setShowPicker(true)}
+            >
+              <Text style={{ color: "#333" }}>{formatDate(date)}</Text>
+            </Pressable>
 
-        <Pressable style={styles.button} onPress={handleTransfer}>
-          {loading ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <Text style={styles.buttonText}>Enviar</Text>
-          )}
-        </Pressable>
+            {showPicker && (
+              <DateTimePicker
+                value={date}
+                mode="date"
+                display="default"
+                minimumDate={new Date()}
+                onValueChange={onChangeDate}
+              />
+            )}
 
-        {success && <Text style={styles.success}>Transferencia exitosa</Text>}
-        {error && <Text style={styles.error}>Error en la transferencia</Text>}
-      </View>
+            <Pressable
+              style={[
+                styles.button,
+                (!isFormValid || loading) && styles.buttonDisabled,
+              ]}
+              onPress={handleTransfer}
+              disabled={!isFormValid || loading}
+            >
+              {loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.buttonText}>Enviar</Text>
+              )}
+            </Pressable>
+
+            {success && (
+              <Text style={styles.success}>Transferencia exitosa</Text>
+            )}
+            {error && (
+              <Text style={styles.error}>Error en la transferencia</Text>
+            )}
+          </View>
+        </TouchableWithoutFeedback>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
@@ -100,16 +149,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  scrollContainer: {
+    flexGrow: 1,
     justifyContent: "center",
+    paddingHorizontal: 24,
+    paddingBottom: 40,
   },
   form: {
-    paddingHorizontal: 24,
+    width: "100%",
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
     marginBottom: 24,
     textAlign: "center",
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: "#eee",
+    borderRadius: 12,
+    marginBottom: 16,
+    backgroundColor: "#f9f9f9",
+    overflow: "hidden",
   },
   input: {
     width: "100%",
@@ -128,6 +190,10 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: "center",
     marginTop: 10,
+  },
+  buttonDisabled: {
+    backgroundColor: "#B0B3FF",
+    opacity: 0.7,
   },
   buttonText: {
     color: "#fff",

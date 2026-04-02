@@ -1,19 +1,30 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   Image,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { COLORS } from "../constants/colors";
 import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const { onLogin } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+
+  const passwordRef = useRef(null);
+
+  const logo = require("../../assets/images/xyzLogo.png");
 
   const handleLogin = async () => {
     const result = await onLogin!(email, password);
@@ -23,84 +34,143 @@ const Login = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <Image source={{ uri: "https://example.com/logo.png" }} />
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.container}>
+            <View style={styles.content}>
+              <Image source={logo} style={styles.logo} />
 
-        <View style={styles.form}>
-          <Text style={styles.errorMsg}>{errorMsg}</Text>
+              <View style={styles.form}>
+                <Text style={styles.title}>Log In</Text>
 
-          <TextInput
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            style={styles.input}
-            placeholderTextColor="#bbbbbb"
-          />
+                {!!errorMsg && (
+                  <Text style={styles.errorMsg}>{errorMsg}</Text>
+                )}
 
-          <TextInput
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            style={styles.input}
-            placeholderTextColor="#bbbbbb"
-          />
-        </View>
-      </View>
+                {/* 📧 Email */}
+                <TextInput
+                  placeholder="Email"
+                  value={email}
+                  onChangeText={setEmail}
+                  style={styles.input}
+                  placeholderTextColor="#bbbbbb"
+                  autoFocus
+                  returnKeyType="next"
+                  onSubmitEditing={() => passwordRef.current?.focus()}
+                  blurOnSubmit={false}
+                />
 
-      <View style={styles.footer}>
-        <Pressable style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Log In</Text>
-        </Pressable>
-      </View>
-    </View>
+                {/* 🔒 Password */}
+                <TextInput
+                  ref={passwordRef}
+                  placeholder="Password"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+                  style={styles.input}
+                  placeholderTextColor="#bbbbbb"
+                  returnKeyType="done"
+                  onSubmitEditing={handleLogin}
+                />
+              </View>
+            </View>
+
+            {/* 🔘 Button */}
+            <View style={styles.footer}>
+              <Pressable
+                style={[
+                  styles.button,
+                  (!email || !password) && styles.buttonDisabled,
+                ]}
+                onPress={handleLogin}
+                disabled={!email || !password}
+              >
+                <Text style={styles.buttonText}>Log In</Text>
+              </Pressable>
+            </View>
+          </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  errorMsg: {
-    color: "red",
-    marginBottom: 10,
-    justifyContent: "center",
-  },
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "space-between", // 🔥 key change
+    backgroundColor: COLORS.background,
+    justifyContent: "space-between",
   },
+
   content: {
-    marginTop: 100, // optional spacing from top
+    marginTop: 80,
     alignItems: "center",
   },
+
+  logo: {
+    height: 200,
+    width: 300,
+  },
+
   form: {
     width: "100%",
     paddingHorizontal: 24,
     marginTop: 20,
   },
-  footer: {
-    padding: 24, // spacing from edges
+
+  title: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: COLORS.textPrimary,
+    textAlign: "center",
+    marginBottom: 12,
   },
+
+  errorMsg: {
+    color: COLORS.error,
+    textAlign: "center",
+    marginBottom: 12,
+    fontSize: 14,
+  },
+
   input: {
     width: "100%",
-    padding: 12,
-    borderWidth: 2,
-    borderRadius: 15,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: COLORS.border,
+    borderRadius: 12,
     marginBottom: 16,
-    borderColor: "#f3f3f3",
-    backgroundColor: "#f9f9f9",
+    backgroundColor: COLORS.surface,
     fontSize: 16,
-    color: "#333",
+    color: COLORS.textPrimary,
   },
+
+  footer: {
+    padding: 24,
+  },
+
   button: {
-    backgroundColor: "#6367FF",
-    padding: 15,
+    backgroundColor: COLORS.primary,
+    padding: 16,
     borderRadius: 30,
     alignItems: "center",
   },
+
+  buttonDisabled: {
+    opacity: 0.5,
+  },
+
   buttonText: {
-    color: "white",
+    color: COLORS.background,
     fontSize: 16,
+    fontWeight: "600",
   },
 });
 
