@@ -60,7 +60,7 @@ const Login = () => {
                   value={email}
                   onChangeText={setEmail}
                   style={styles.input}
-                  placeholderTextColor="#bbbbbb"
+                  placeholderTextColor={COLORS.placeHolder}
                   autoFocus
                   returnKeyType="next"
                   onSubmitEditing={() => passwordRef.current?.focus()}
@@ -75,7 +75,7 @@ const Login = () => {
                   onChangeText={setPassword}
                   secureTextEntry
                   style={styles.input}
-                  placeholderTextColor="#bbbbbb"
+                  placeholderTextColor={COLORS.placeHolder}
                   returnKeyType="done"
                   onSubmitEditing={handleLogin}
                 />

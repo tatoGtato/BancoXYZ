@@ -14,6 +14,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { COLORS } from "../constants/colors";
 import { doTransactions } from "../hooks/doTransactions";
 
 const Transfer = ({ navigation }) => {
@@ -75,7 +76,7 @@ const Transfer = ({ navigation }) => {
               onChangeText={setAmount}
               keyboardType="numeric"
               style={styles.input}
-              placeholderTextColor="#aaa"
+              placeholderTextColor={COLORS.placeHolder}
               returnKeyType="done"
             />
 
@@ -97,14 +98,14 @@ const Transfer = ({ navigation }) => {
               onChangeText={setDocument}
               keyboardType="numeric"
               style={styles.input}
-              placeholderTextColor="#aaa"
+              placeholderTextColor={COLORS.placeHolder}
             />
 
             <Pressable
               style={styles.input}
               onPress={() => setShowPicker(true)}
             >
-              <Text style={{ color: "#333" }}>{formatDate(date)}</Text>
+              <Text style={{ color: COLORS.textPrimary }}>{formatDate(date)}</Text>
             </Pressable>
 
             {showPicker && (
@@ -126,7 +127,7 @@ const Transfer = ({ navigation }) => {
               disabled={!isFormValid || loading}
             >
               {loading ? (
-                <ActivityIndicator color="#fff" />
+                <ActivityIndicator color={COLORS.background} />
               ) : (
                 <Text style={styles.buttonText}>Enviar</Text>
               )}
@@ -148,7 +149,7 @@ const Transfer = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: COLORS.background,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -167,36 +168,36 @@ const styles = StyleSheet.create({
   },
   pickerContainer: {
     borderWidth: 1,
-    borderColor: "#eee",
+    borderColor: COLORS.border,
     borderRadius: 12,
     marginBottom: 16,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: COLORS.surface,
     overflow: "hidden",
   },
   input: {
     width: "100%",
     padding: 14,
     borderWidth: 1,
-    borderColor: "#eee",
+    borderColor: COLORS.border,
     borderRadius: 12,
     marginBottom: 16,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: COLORS.surface,
     fontSize: 16,
-    color: "#333",
+    color: COLORS.textPrimary,
   },
   button: {
-    backgroundColor: "#6367FF",
+    backgroundColor: COLORS.primary,
     padding: 16,
     borderRadius: 30,
     alignItems: "center",
     marginTop: 10,
   },
   buttonDisabled: {
-    backgroundColor: "#B0B3FF",
+    backgroundColor: COLORS.primaryLight,
     opacity: 0.7,
   },
   buttonText: {
-    color: "#fff",
+    color: COLORS.background,
     fontSize: 16,
     fontWeight: "600",
   },

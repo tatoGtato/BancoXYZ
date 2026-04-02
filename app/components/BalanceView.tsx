@@ -65,7 +65,7 @@ const BalanceView = ({ balance, currency, transactions, onTransfer }) => {
           value={search}
           onChangeText={setSearch}
           style={styles.input}
-          placeholderTextColor="#aaa"
+          placeholderTextColor={COLORS.placeHolder}
         />
 
         {/* Date Picker Trigger */}
@@ -158,14 +158,14 @@ const styles = StyleSheet.create({
   },
 
   clearText: {
-    color: COLORS.primary,
+    color: COLORS.textPrimary,
     textAlign: "center",
     fontSize: 12,
   },
 
   emptyText: {
     textAlign: "center",
-    color: "#999",
+    color: COLORS.placeHolder,
     marginTop: 20,
   },
 
@@ -177,14 +177,14 @@ const styles = StyleSheet.create({
 
   balanceLabel: {
     fontSize: 16,
-    color: "#888",
+    color: COLORS.textSecondary,
     marginBottom: 8,
   },
 
   balanceAmount: {
     fontSize: 40,
     fontWeight: "bold",
-    color: "#222",
+    color: COLORS.textPrimary,
   },
 
   transactionsContainer: {
@@ -204,28 +204,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 14,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    borderBottomColor: COLORS.border,
   },
 
   transactionName: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#222",
+    color: COLORS.border,
   },
 
   transactionDate: {
     fontSize: 14,
-    color: "#333",
+    color: COLORS.textPrimary,
   },
 
   transactionAmount: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#222",
+    color: COLORS.textPrimary,
   },
 
   button: {
-    backgroundColor: "#6367FF",
+    backgroundColor: COLORS.primary,
     margin: 20,
     padding: 16,
     borderRadius: 30,
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    color: "#fff",
+    color: COLORS.background,
     fontSize: 16,
     fontWeight: "600",
   },

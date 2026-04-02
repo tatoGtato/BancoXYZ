@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text
 } from "react-native";
+import { COLORS } from "../constants/colors";
 import { useAuth } from "./../context/AuthContext";
 import Balance from "./Balance";
 import Transfer from "./Transfer";
@@ -44,7 +45,7 @@ const Home = () => {
 
 const styles = StyleSheet.create({
   logoutText: {
-    color: "#6367FF",
+    color: COLORS.primary,
     fontSize: 16,
     fontWeight: "600",
     paddingLeft: 12,
