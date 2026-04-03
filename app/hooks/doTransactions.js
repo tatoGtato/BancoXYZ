@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { doTransaction } from "../services/apis";
 
+//Test component for the transaction screen
 export const doTransactions = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

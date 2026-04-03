@@ -1,8 +1,8 @@
-# BancoXYZ - Mobile Banking Application 🏦
+# BancoXYZ - Mobile Banking Application
 
 A modern React Native banking application built with Expo, featuring secure authentication, balance tracking, and international money transfers.
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
@@ -19,7 +19,7 @@ A modern React Native banking application built with Expo, featuring secure auth
 - [Contributing](#contributing)
 - [License](#license)
 
-## ✨ Features
+## Features
 
 - **User Authentication** - Secure login with email and password
 - **Balance Management** - Real-time account balance display with multi-currency support
@@ -31,7 +31,7 @@ A modern React Native banking application built with Expo, featuring secure auth
 - **Loading States** - User-friendly loading indicators for async operations
 - **Error Handling** - Comprehensive error messages and validation
 
-## 🛠 Tech Stack
+## Tech Stack
 
 ### Frontend
 - **React Native** (0.81.5) - Cross-platform mobile development
@@ -57,13 +57,15 @@ A modern React Native banking application built with Expo, featuring secure auth
 - **Prettier** - Code formatting
 - **Metro** - React Native bundler
 
-## 📦 Prerequisites
+## Prerequisites
 
 - Node.js (v16 or higher)
 - npm or yarn
 - Expo CLI: `npm install -g expo-cli`
-- 
-## 🚀 Installation
+- Android Studio (for Android development)
+- Xcode (for iOS development)
+
+## Installation
 
 1. **Clone the repository**
    ```bash
@@ -81,7 +83,7 @@ A modern React Native banking application built with Expo, featuring secure auth
    npm install -g expo-cli
    ```
 
-## 🎯 Getting Started
+## Getting Started
 
 ### Development Mode
 
@@ -113,7 +115,7 @@ eas build --platform android --profile preview
 eas build --platform ios --profile preview
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 BancoXYZ/
@@ -152,7 +154,7 @@ BancoXYZ/
 └── package.json              # Dependencies
 ```
 
-## 📝 Available Scripts
+## Available Scripts
 
 ```bash
 npm start          # Start development server
@@ -164,7 +166,7 @@ npm run lint       # Run ESLint
 npm run reset-project  # Reset to blank state
 ```
 
-## 🧪 Testing
+## Testing
 
 ### Run All Tests
 ```bash
@@ -182,8 +184,34 @@ The project includes comprehensive tests for:
 
 **Total: 68 tests passing**
 
+## Configuration
 
-## 🔌 API Integration
+### Environment Variables
+
+Create a `.env` file in the root directory:
+```env
+EXPO_PUBLIC_API_URL=https://your-api-url.com
+```
+
+### API Configuration
+
+Update API endpoints in `app/services/apis.js`:
+```javascript
+export const API_URL = "https://your-api-url.com";
+```
+
+### Theme Configuration
+
+Customize colors in `app/constants/colors.js`:
+```javascript
+export const COLORS = {
+  primary: "#007AFF",
+  background: "#FFFFFF",
+  // ... more colors
+};
+```
+
+## API Integration
 
 ### Authentication Endpoints
 
@@ -205,7 +233,7 @@ The project includes comprehensive tests for:
   - Body: `{ value: number, currency: string, payeerDocument: string, transferDate: string }`
   - Response: `{ success: boolean, transactionId: string }`
 
-## 🔐 Security
+## Security
 
 ### Best Practices Implemented
 
@@ -226,7 +254,7 @@ App Init → Check stored token → Restore session → Maintain auth state
 Logout → Delete token → Clear headers → Return to login
 ```
 
-## 🌍 Internationalization
+## Internationalization
 
 Supported languages:
 - 🇺🇸 English (en)
@@ -245,7 +273,7 @@ Example:
 ```
 
 
-## 📚 Resources
+## Resources
 
 - [Expo Documentation](https://docs.expo.dev/)
 - [React Native Documentation](https://reactnative.dev/)
@@ -253,6 +281,13 @@ Example:
 - [Jest Testing Guide](https://jestjs.io/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contact
+
+For questions or support, please contact: support@bancoxyz.com
 
 ---
 

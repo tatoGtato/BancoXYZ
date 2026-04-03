@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getBalance, getTransactions } from "../services/apis";
 
+//Test component for the balance screen
 export const useBalanceData = () => {
   const [balance, setBalance] = useState("");
   const [currency, setCurrency] = useState("");

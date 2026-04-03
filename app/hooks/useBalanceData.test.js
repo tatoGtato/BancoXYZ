@@ -4,6 +4,7 @@ import { useBalanceData } from "./useBalanceData";
 
 jest.mock("../services/apis");
 
+
 describe("useBalanceData Hook", () => {
   beforeEach(() => {
     jest.clearAllMocks();
