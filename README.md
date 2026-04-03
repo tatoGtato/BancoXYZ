@@ -62,9 +62,7 @@ A modern React Native banking application built with Expo, featuring secure auth
 - Node.js (v16 or higher)
 - npm or yarn
 - Expo CLI: `npm install -g expo-cli`
-- Android Studio (for Android development)
-- Xcode (for iOS development)
-
+- 
 ## 🚀 Installation
 
 1. **Clone the repository**
@@ -173,21 +171,6 @@ npm run reset-project  # Reset to blank state
 npm test
 ```
 
-### Run Tests in Watch Mode
-```bash
-npm test -- --watch
-```
-
-### Run Specific Test File
-```bash
-npm test app/pages/Login.test.js
-```
-
-### Test Coverage
-```bash
-npm test -- --coverage
-```
-
 ### Test Files
 
 The project includes comprehensive tests for:
@@ -199,32 +182,6 @@ The project includes comprehensive tests for:
 
 **Total: 68 tests passing**
 
-## ⚙️ Configuration
-
-### Environment Variables
-
-Create a `.env` file in the root directory:
-```env
-EXPO_PUBLIC_API_URL=https://your-api-url.com
-```
-
-### API Configuration
-
-Update API endpoints in `app/services/apis.js`:
-```javascript
-export const API_URL = "https://your-api-url.com";
-```
-
-### Theme Configuration
-
-Customize colors in `app/constants/colors.js`:
-```javascript
-export const COLORS = {
-  primary: "#007AFF",
-  background: "#FFFFFF",
-  // ... more colors
-};
-```
 
 ## 🔌 API Integration
 
@@ -296,22 +253,10 @@ Example:
 - [Jest Testing Guide](https://jestjs.io/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 📧 Contact
-
-For questions or support, please contact: support@bancoxyz.com
 
 ---
 
 **Last Updated**: April 2, 2026  
 **Version**: 1.0.0
 
-## Join the community
 
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
